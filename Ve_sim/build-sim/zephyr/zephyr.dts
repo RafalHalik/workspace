@@ -1,0 +1,449 @@
+/dts-v1/;
+
+/ {
+	#address-cells = < 0x1 >;
+	#size-cells = < 0x1 >;
+	model = "Native Sim Board";
+	compatible = "zephyr,posix";
+	chosen {
+		zephyr,console = &uart0;
+		zephyr,shell-uart = &uart0;
+		zephyr,uart-mcumgr = &uart0;
+		zephyr,flash = &flash0;
+		zephyr,entropy = &rng;
+		zephyr,flash-controller = &flashcontroller0;
+		zephyr,display = &sdl_dc;
+		zephyr,canbus = &can_loopback0;
+		zephyr,code-partition = &slot0_partition;
+		zephyr,touch = &input_sdl_touch;
+	};
+	aliases {
+		eeprom-0 = &eeprom0;
+		i2c-0 = &i2c0;
+		spi-0 = &spi0;
+		led0 = &led0;
+		rtc = &rtc;
+		sw0 = &button0;
+		debug-uart = &uart0;
+		led-green = &led0;
+		led-red = &led0;
+		drv8844 = &drv8844;
+		i2c = &i2c0;
+		button-led-driver = &lp5018;
+		can1-stb = &can1_stb;
+		digital-in-port = &gpio0;
+		gpio-expander = &gpio0;
+		modbus = &modbus0;
+		power-tft-en = &display_power;
+		backlight-led-en = &bkled;
+		display-reset = &display_reset;
+		power-5v-en = &power_5v_enable;
+		nafe-pwr-en = &nafe_pwr_en;
+		vref-ctrl = &vref_ctrl;
+		bm0-btn = &bm0_button;
+		bm1-btn = &bm1_button;
+		buzzer-en = &buzzer_en;
+		board-button-0 = &board_button_0;
+		board-button-1 = &board_button_1;
+		board-button-2 = &board_button_2;
+		board-button-3 = &board_button_3;
+		board-button-4 = &board_button_4;
+		usb-id-input = &usb_id_input;
+		ignition-input = &ignition_input;
+		digital-in-1-hi = &digital_in_1_hi;
+		digital-in-1-low = &digital_in_1_low;
+		digital-in-2-hi = &digital_in_2_hi;
+		digital-in-2-low = &digital_in_2_low;
+		digital-in-3-hi = &digital_in_3_hi;
+		digital-in-3-low = &digital_in_3_low;
+		digital-in-4-hi = &digital_in_4_hi;
+		digital-in-4-low = &digital_in_4_low;
+	};
+	leds {
+		compatible = "gpio-leds";
+		led0: led_0 {
+			gpios = < &gpio0 0x0 0x0 >;
+			label = "Green LED";
+		};
+	};
+	lvgl_pointer {
+		compatible = "zephyr,lvgl-pointer-input";
+		input = < &input_sdl_touch >;
+	};
+	cpus {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x0 >;
+		cpu0: cpu@0 {
+			compatible = "zephyr,native-posix-cpu";
+			reg = < 0x0 >;
+		};
+	};
+	flashcontroller0: flash-controller@0 {
+		compatible = "zephyr,sim-flash";
+		reg = < 0x0 0x200000 >;
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x1 >;
+		erase-value = < 0xff >;
+		flash0: flash@0 {
+			status = "okay";
+			compatible = "soc-nv-flash";
+			erase-block-size = < 0x1000 >;
+			write-block-size = < 0x1 >;
+			reg = < 0x0 0x200000 >;
+			partitions {
+				compatible = "fixed-partitions";
+				#address-cells = < 0x1 >;
+				#size-cells = < 0x1 >;
+				boot_partition: partition@0 {
+					label = "mcuboot";
+					reg = < 0x0 0xc000 >;
+				};
+				slot0_partition: partition@c000 {
+					label = "image-0";
+					reg = < 0xc000 0x69000 >;
+				};
+				slot1_partition: partition@75000 {
+					label = "image-1";
+					reg = < 0x75000 0x69000 >;
+				};
+				scratch_partition: partition@de000 {
+					label = "image-scratch";
+					reg = < 0xde000 0x1e000 >;
+				};
+				storage_partition: partition@fc000 {
+					label = "storage";
+					reg = < 0xfc000 0x4000 >;
+				};
+			};
+		};
+	};
+	eeprom0: eeprom {
+		status = "okay";
+		compatible = "zephyr,sim-eeprom";
+		size = < 0x8000 >;
+	};
+	i2c0: i2c@100 {
+		status = "okay";
+		compatible = "zephyr,i2c-emul-controller";
+		clock-frequency = < 0x186a0 >;
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x0 >;
+		#forward-cells = < 0x1 >;
+		reg = < 0x100 0x4 >;
+	};
+	spi0: spi@200 {
+		status = "okay";
+		compatible = "zephyr,spi-emul-controller";
+		clock-frequency = < 0x2faf080 >;
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x0 >;
+		reg = < 0x200 0x4 >;
+		nafe13388: nafe13388@0 {
+			status = "okay";
+			zephyr,deferred-init;
+			compatible = "nxp,nafe13388emul";
+			reset-gpios = < &gpio0 0x1c 0x0 >;
+			int-gpios = < &gpio0 0x1d 0x0 >;
+			drdy-gpios = < &gpio0 0x1e 0x0 >;
+			spi-addr = < 0x0 >;
+			reg = < 0x0 >;
+			spi-max-frequency = < 0xf4240 >;
+		};
+	};
+	espi0: espi@300 {
+		status = "okay";
+		compatible = "zephyr,espi-emul-controller";
+		reg = < 0x300 0x4 >;
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x0 >;
+	};
+	uart0: uart {
+		status = "okay";
+		compatible = "zephyr,native-tty-uart";
+		current-speed = < 0x1c200 >;
+		serial-port = "/dev/pts/1";
+	};
+	uart1: uart_1 {
+		status = "okay";
+		compatible = "zephyr,native-posix-uart";
+		current-speed = < 0x0 >;
+	};
+	rng: rng {
+		status = "okay";
+		compatible = "zephyr,native-posix-rng";
+	};
+	counter0: counter {
+		status = "okay";
+		compatible = "zephyr,native-posix-counter";
+	};
+	gpio0: gpio@800 {
+		status = "okay";
+		compatible = "zephyr,gpio-emul";
+		reg = < 0x800 0x4 >;
+		rising-edge;
+		falling-edge;
+		high-level;
+		low-level;
+		gpio-controller;
+		#gpio-cells = < 0x2 >;
+		ngpios = < 0x20 >;
+		phandle = < 0x1 >;
+	};
+	gpio1: gpio@900 {
+		status = "okay";
+		compatible = "zephyr,gpio-emul";
+		reg = < 0x900 0x4 >;
+		rising-edge;
+		falling-edge;
+		high-level;
+		low-level;
+		gpio-controller;
+		#gpio-cells = < 0x2 >;
+		ngpios = < 0x9 >;
+		phandle = < 0x3 >;
+		sdl_gpio {
+			status = "okay";
+			compatible = "zephyr,gpio-emul-sdl";
+			scancodes = < 0x0 0x15 0x5 0x1e 0x1f 0x20 0x50 0x4f 0x28 >;
+		};
+	};
+	zephyr_udc0: udc0 {
+		compatible = "zephyr,native-posix-udc";
+	};
+	sdl_dc: sdl_dc {
+		compatible = "zephyr,sdl-dc";
+		height = < 0x1db >;
+		width = < 0x244 >;
+	};
+	input_sdl_touch: input-sdl-touch {
+		compatible = "zephyr,input-sdl-touch";
+		phandle = < 0x2 >;
+	};
+	can_loopback0: can_loopback0 {
+		status = "disabled";
+		compatible = "zephyr,can-loopback";
+	};
+	can0: can {
+		status = "okay";
+		compatible = "zephyr,native-linux-can";
+		host-interface = "zcan0";
+	};
+	rtc: rtc {
+		status = "okay";
+		compatible = "zephyr,rtc-emul";
+		alarms-count = < 0x2 >;
+	};
+	adc0: adc {
+		compatible = "zephyr,adc-emul";
+		nchannels = < 0x2 >;
+		#io-channel-cells = < 0x1 >;
+		status = "okay";
+	};
+	dma: dma {
+		compatible = "zephyr,dma-emul";
+		#dma-cells = < 0x1 >;
+		stack-size = < 0x1000 >;
+	};
+	qdec {
+		compatible = "gpio-qdec";
+		gpios = < &gpio1 0x4 0x0 >, < &gpio1 0x5 0x0 >;
+		steps-per-period = < 0x4 >;
+		zephyr,axis = < 0x8 >;
+		sample-time-us = < 0x7d0 >;
+		idle-timeout-ms = < 0xc8 >;
+	};
+	keys: keys {
+		compatible = "gpio-keys";
+		phandle = < 0x4 >;
+		button0: button0 {
+			gpios = < &gpio1 0x1 0x0 >;
+			zephyr,code = < 0x13 >;
+		};
+		button1: button1 {
+			gpios = < &gpio1 0x2 0x0 >;
+			zephyr,code = < 0x30 >;
+		};
+		encoder_button: encoder_button {
+			gpios = < &gpio1 0x3 0x0 >;
+			zephyr,code = < 0xb >;
+		};
+		button_left: button_left {
+			gpios = < &gpio1 0x6 0x0 >;
+			zephyr,code = < 0x69 >;
+		};
+		button_right: button_right {
+			gpios = < &gpio1 0x7 0x0 >;
+			zephyr,code = < 0x6a >;
+		};
+		button_enter: button_enter {
+			gpios = < &gpio1 0x8 0x0 >;
+			zephyr,code = < 0x1c >;
+		};
+	};
+	lvgl_button_input {
+		compatible = "zephyr,lvgl-button-input";
+		input = < &keys >;
+		input-codes = < 0x30 >;
+		coordinates = < 0xa0 0x78 >;
+	};
+	lvgl_encoder_input {
+		compatible = "zephyr,lvgl-encoder-input";
+		rotation-input-code = < 0x8 >;
+		button-input-code = < 0xb >;
+	};
+	lvgl_keypad_input {
+		compatible = "zephyr,lvgl-keypad-input";
+		input = < &keys >;
+		input-codes = < 0x69 0x6a 0x1c >;
+		lvgl-codes = < 0x14 0x13 0xa >;
+	};
+	lpuart10: lpuart_10 {
+		status = "okay";
+		compatible = "zephyr,native-posix-uart";
+		current-speed = < 0x0 >;
+		modbus0: modbus_0 {
+			compatible = "zephyr,modbus-serial";
+			status = "okay";
+			de-gpios = < &gpio0 0x1a 0x0 >;
+			re-gpios = < &gpio0 0x1b 0x1 >;
+		};
+	};
+	drv8844: drv8844 {
+		status = "okay";
+		compatible = "zephyr,gpio-emul";
+		rising-edge;
+		falling-edge;
+		high-level;
+		low-level;
+		gpio-controller;
+		#gpio-cells = < 0x2 >;
+	};
+	lp5018: lp5018 {
+		status = "okay";
+		compatible = "zephyr,gpio-emul";
+		rising-edge;
+		falling-edge;
+		high-level;
+		low-level;
+		gpio-controller;
+		#gpio-cells = < 0x2 >;
+	};
+	fake_usb_i2c: i2c@21 {
+		status = "okay";
+		compatible = "zephyr,i2c-emul-controller";
+		clock-frequency = < 0x186a0 >;
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x0 >;
+		reg = < 0x21 0x4 >;
+	};
+	fake_io {
+		compatible = "gpio-leds";
+		status = "disabled";
+		display_power: display_power {
+			label = "Display Power";
+			gpios = < &gpio0 0x19 0x0 >;
+		};
+		bkled: bkled {
+			label = "Backlight LED";
+			gpios = < &gpio0 0x1 0x0 >;
+		};
+		display_reset: display_reset {
+			label = "Display Reset";
+			gpios = < &gpio0 0x2 0x1 >;
+		};
+		power_5v_enable: power_5v_enable {
+			label = "5V Power Enable";
+			gpios = < &gpio0 0x3 0x0 >;
+		};
+		nafe_pwr_en: nafe_pwr_en {
+			label = "NAFE Power Enable";
+			gpios = < &gpio0 0x4 0x0 >;
+		};
+		can1_stb: can1_stb {
+			label = "CAN1 Transceiver STB";
+			gpios = < &gpio0 0x5 0x1 >;
+			status = "okay";
+		};
+		vref_ctrl: vref_ctrl {
+			label = "VREF Control";
+			gpios = < &gpio0 0x6 0x0 >;
+		};
+		bm0_button: bm0_button {
+			label = "Boot Mode 0 Button";
+			gpios = < &gpio0 0x7 0x1 >;
+		};
+		bm1_button: bm1_button {
+			label = "Boot Mode 1 Button";
+			gpios = < &gpio0 0x8 0x1 >;
+		};
+		buzzer_en: buzzer_en {
+			label = "Buzzer Enable";
+			gpios = < &gpio0 0x9 0x0 >;
+		};
+		board_button_0: board_button_0 {
+			label = "Button 0";
+			gpios = < &gpio0 0x2 0x1 >;
+			status = "okay";
+		};
+		board_button_1: board_button_1 {
+			label = "Button 1";
+			gpios = < &gpio0 0x6 0x1 >;
+			status = "okay";
+		};
+		board_button_2: board_button_2 {
+			label = "Button 2";
+			gpios = < &gpio0 0x4 0x1 >;
+			status = "okay";
+		};
+		board_button_3: board_button_3 {
+			label = "Button 3";
+			gpios = < &gpio0 0x5 0x1 >;
+			status = "okay";
+		};
+		board_button_4: board_button_4 {
+			label = "Button 4";
+			gpios = < &gpio0 0x3 0x1 >;
+			status = "okay";
+		};
+		usb_id_input: usb_id_input {
+			label = "USB ID Input";
+			gpios = < &gpio0 0xe 0x1 >;
+		};
+		ignition_input: ignition_input {
+			label = "Ignition Input";
+			gpios = < &gpio0 0xf 0x1 >;
+		};
+		digital_in_1_hi: digital_in_1_hi {
+			label = "DIN1 HI";
+			gpios = < &gpio0 0x10 0x1 >;
+		};
+		digital_in_1_low: digital_in_1_low {
+			label = "DIN1 LO";
+			gpios = < &gpio0 0x11 0x1 >;
+		};
+		digital_in_2_hi: digital_in_2_hi {
+			label = "DIN2 HI";
+			gpios = < &gpio0 0x12 0x1 >;
+		};
+		digital_in_2_low: digital_in_2_low {
+			label = "DIN2 LO";
+			gpios = < &gpio0 0x13 0x1 >;
+		};
+		digital_in_3_hi: digital_in_3_hi {
+			label = "DIN3 HI";
+			gpios = < &gpio0 0x14 0x1 >;
+		};
+		digital_in_3_low: digital_in_3_low {
+			label = "DIN3 LO";
+			gpios = < &gpio0 0x15 0x1 >;
+		};
+		digital_in_4_hi: digital_in_4_hi {
+			label = "DIN4 HI";
+			gpios = < &gpio0 0x16 0x1 >;
+		};
+		digital_in_4_low: digital_in_4_low {
+			label = "DIN4 LO";
+			gpios = < &gpio0 0x17 0x1 >;
+		};
+	};
+};

@@ -1,0 +1,13 @@
+#
+# Copyright (c) 2020 Linumiz
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+
+config BSP_AUTO_INIT
+	bool "BSP auto init"
+	default n
+	help
+	  Board Support Package.
+

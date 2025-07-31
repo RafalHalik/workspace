@@ -1,0 +1,27 @@
+config ZEPHYR_C4_3_MODULE
+   bool
+   default y
+config ZEPHYR_MCUBOOT_C4_3_MODULE
+   bool
+   default y
+config ZEPHYR_CMSIS_MODULE
+   bool
+   default y
+config ZEPHYR_HAL_NXP_MODULE
+   bool
+   default y
+config ZEPHYR_LVGL_MODULE
+   bool
+   default y
+config ZEPHYR_MBEDTLS_MODULE
+   bool
+   default y
+config ZEPHYR_VEETHREE_SIM_MODULE
+   bool
+   default y
+config ZEPHYR_BSP_MODULE
+   bool
+   default y
+config ZEPHYR_NAFE_MODULE
+   bool
+   default y

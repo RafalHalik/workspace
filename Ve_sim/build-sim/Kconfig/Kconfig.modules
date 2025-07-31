@@ -1,0 +1,42 @@
+menu "C4.3 (/home/user/C4.3_firmware/C4.3_workspace)"
+osource "/home/user/C4.3_firmware/C4.3_workspace/Kconfig"
+config ZEPHYR_C4_3_MODULE
+	bool
+	default y
+endmenu
+config ZEPHYR_MCUBOOT_C4_3_MODULE
+   bool
+   default y
+menu "cmsis (/home/user/C4.3_firmware/modules/hal/cmsis)"
+osource "$(ZEPHYR_CMSIS_KCONFIG)"
+config ZEPHYR_CMSIS_MODULE
+	bool
+	default y
+endmenu
+menu "hal_nxp (/home/user/C4.3_firmware/modules/hal/nxp)"
+osource "$(ZEPHYR_HAL_NXP_KCONFIG)"
+config ZEPHYR_HAL_NXP_MODULE
+	bool
+	default y
+endmenu
+menu "lvgl (/home/user/C4.3_firmware/modules/lib/gui/lvgl)"
+osource "/home/user/C4.3_firmware/modules/lib/gui/lvgl/Kconfig"
+config ZEPHYR_LVGL_MODULE
+	bool
+	default y
+endmenu
+menu "mbedtls (/home/user/C4.3_firmware/modules/crypto/mbedtls)"
+osource "$(ZEPHYR_MBEDTLS_KCONFIG)"
+config ZEPHYR_MBEDTLS_MODULE
+	bool
+	default y
+endmenu
+config ZEPHYR_VEETHREE_SIM_MODULE
+   bool
+   default y
+config ZEPHYR_BSP_MODULE
+   bool
+   default y
+config ZEPHYR_NAFE_MODULE
+   bool
+   default y

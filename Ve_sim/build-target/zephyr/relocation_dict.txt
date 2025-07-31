@@ -1,0 +1,1 @@
+|ITCM_TEXT:COPY:/home/user/C4.3_firmware/zephyr/soc/nxp/imxrt/imxrt11xx/flexspi.c|ITCM_TEXT:COPY:/home/user/C4.3_firmware/zephyr/drivers/memc/memc_mcux_flexspi.c|ITCM_TEXT:COPY:/home/user/C4.3_firmware/C4.3_workspace/drivers/flash/flash_mcux_flexspi_is25lx064.c|ITCM_TEXT:COPY:/home/user/C4.3_firmware/modules/hal/nxp/mcux/mcux-sdk/drivers/flexspi/fsl_flexspi.c

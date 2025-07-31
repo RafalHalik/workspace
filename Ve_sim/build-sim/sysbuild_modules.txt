@@ -1,0 +1,1 @@
+"mcuboot_c4.3":"/home/user/C4.3_firmware/bootloader/mcuboot_c4.3":"/home/user/C4.3_firmware/bootloader/mcuboot_c4.3/boot/zephyr/sysbuild"

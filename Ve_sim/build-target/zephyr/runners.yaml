@@ -1,0 +1,34 @@
+# Available runners configured by board.cmake.
+runners:
+- jlink
+- linkserver
+- pyocd
+
+# Default flash runner if --runner is not given.
+flash-runner: linkserver
+
+# Default debug runner if --runner is not given.
+debug-runner: linkserver
+
+# Common runner configuration values.
+config:
+  board_dir: /home/user/C4.3_firmware/C4.3_workspace/boards/nxp/mimxrt1160_c4p3
+  # Build outputs:
+  elf_file: zephyr.elf
+  bin_file: zephyr.bin
+  # Host tools:
+  gdb: /opt/toolchains/zephyr-sdk-0.16.8/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb
+  openocd: /opt/toolchains/zephyr-sdk-0.16.8/sysroots/x86_64-pokysdk-linux/usr/bin/openocd
+  openocd_search:
+    - /opt/toolchains/zephyr-sdk-0.16.8/sysroots/x86_64-pokysdk-linux/usr/share/openocd/scripts
+
+# Runner specific arguments
+args:
+  jlink:
+    - --dt-flash=y
+  linkserver:
+    - --dt-flash=y
+    - --device=MIMXRT1166xxxxx:MIMXRT1160-EVK-CM7-ONLY
+    - --override=/device/memory/9/flash-driver=C4P3_OPI_ISSI.cfx
+  pyocd:
+    - --dt-flash=y

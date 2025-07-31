@@ -1,0 +1,13 @@
+NSI_NATIVE=1
+NSI_BUILD_OPTIONS:=-m64 -I/usr/include/SDL2 -D_REENTRANT
+NSI_BUILD_PATH:=/home/user/C4.3_firmware/C4.3_workspace/apps/Ve_sim/build-sim/zephyr/NSI
+NSI_CC:=ccache /usr/bin/gcc
+NSI_OBJCOPY:=/usr/bin/objcopy
+NSI_EMBEDDED_CPU_SW:=/home/user/C4.3_firmware/C4.3_workspace/apps/Ve_sim/build-sim/zephyr/zephyr.elf 
+NSI_EXE:=/home/user/C4.3_firmware/C4.3_workspace/apps/Ve_sim/build-sim/zephyr/zephyr.exe
+NSI_EXTRA_SRCS:=/home/user/C4.3_firmware/zephyr/boards/native/common/sdl/sdl_events_bottom.c /home/user/C4.3_firmware/zephyr/drivers/can/can_native_linux_adapt.c /home/user/C4.3_firmware/zephyr/drivers/display/display_sdl_bottom.c /home/user/C4.3_firmware/zephyr/drivers/flash/flash_simulator_native.c /home/user/C4.3_firmware/zephyr/drivers/gpio/gpio_emul_sdl_bottom.c /home/user/C4.3_firmware/zephyr/drivers/input/input_sdl_touch_bottom.c /home/user/C4.3_firmware/zephyr/drivers/serial/uart_native_ptty_bottom.c /home/user/C4.3_firmware/zephyr/drivers/serial/uart_native_tty_bottom.c
+NSI_LINK_OPTIONS:=-m64 -lSDL2 -T /home/user/C4.3_firmware/zephyr/boards/native/common/natsim_linker_script.ld
+NSI_EXTRA_LIBS:=
+NSI_PATH:=/home/user/C4.3_firmware/zephyr/scripts/native_simulator/
+NSI_N_CPUS:=1
+NSI_LOCALIZE_OPTIONS:=--localize-symbol=CONFIG_* 
